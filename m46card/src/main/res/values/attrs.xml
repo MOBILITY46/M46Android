@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="card_attrs">
+        <attr name="flip_duration" format="integer"/>
+    </declare-styleable>
+
+</resources>

@@ -2,26 +2,21 @@ package se.mobility46.m46androidcard
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
-import se.mobility46.m46card.CardFragment
+import se.mobility46.m46card.Card
 
-class MainActivity : AppCompatActivity(), CardFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity() {
 
-    val card: CardFragment = CardFragment.newInstance()
-
-    override fun onFlip() {
-        println("flipped!")
-    }
-
-
+    private lateinit var card: Card
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container, card)
-            .commit()
 
+        card = findViewById(R.id.card)
+
+        card.setOnClickListener {
+            card.flip()
+        }
     }
 
 }
