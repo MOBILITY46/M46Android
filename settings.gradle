@@ -1,1 +1,1 @@
-include ':app', ':m46card'
+include ':app', ':card'
