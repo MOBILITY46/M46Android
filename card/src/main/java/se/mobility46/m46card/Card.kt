@@ -17,6 +17,7 @@ class Card @JvmOverloads constructor(context: Context, attrs: AttributeSet)
     }
 
     interface OnCardInteractionListener {
+        fun onCardFlipped(state: FlipState)
     }
 
     private var listener: OnCardInteractionListener? = null
@@ -69,6 +70,7 @@ class Card @JvmOverloads constructor(context: Context, attrs: AttributeSet)
                     frontLayout?.visibility = View.GONE
                     backLayout?.visibility = View.VISIBLE
                 }
+                listener?.onCardFlipped(state)
             }
         })
     }
