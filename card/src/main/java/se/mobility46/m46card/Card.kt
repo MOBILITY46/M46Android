@@ -20,7 +20,7 @@ class Card @JvmOverloads constructor(context: Context, attrs: AttributeSet)
         fun onCardFlipped(state: FlipState)
     }
 
-    private var listener: OnCardInteractionListener? = null
+    var listener: OnCardInteractionListener? = null
 
     private val animOut: AnimatorSet =
         AnimatorInflater.loadAnimator(context, R.animator.flip_out) as AnimatorSet
