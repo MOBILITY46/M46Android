@@ -10,10 +10,4 @@ class CardSide(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         background = context.resources.getDrawable(R.drawable.rectangle, null)
     }
 
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-
-        println(parent)
-    }
 }

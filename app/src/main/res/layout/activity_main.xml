@@ -19,14 +19,24 @@
                 android:layout_margin="15dp"
                 android:backgroundTint="@android:color/holo_red_light"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+        </se.mobility46.m46card.CardSide>
 
         <se.mobility46.m46card.CardSide
                 android:gravity="center"
                 android:layout_margin="15dp"
                 android:backgroundTint="@android:color/holo_blue_bright"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"/>
+
+        </se.mobility46.m46card.CardSide>
 
     </se.mobility46.m46card.Card>
 
