@@ -59,6 +59,7 @@ class TabBar : Fragment() {
     private fun configure(config: TabBarConfig) {
         viewPager.isPagingEnabled = config.swipeable
         tabs.setSelectedTabIndicatorColor(config.indicatorColor)
+        listener?.onTabBarCreate(adapter)
     }
 
     interface Listener {
