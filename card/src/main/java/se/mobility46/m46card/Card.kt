@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 
 
-class Card @JvmOverloads constructor(context: Context, attrs: AttributeSet)
+class Card constructor(context: Context, attrs: AttributeSet?)
     : FrameLayout(context, attrs) {
 
     enum class FlipState {

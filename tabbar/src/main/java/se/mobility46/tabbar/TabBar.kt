@@ -1,8 +1,8 @@
 package se.mobility46.tabbar
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +16,8 @@ class TabBar : Fragment() {
 
     private lateinit var viewPager: TabPager
     private lateinit var tabs: TabLayout
+
+    var withTabs: ((adapter: TabAdapter?) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,6 @@ class TabBar : Fragment() {
 
         viewPager = v.findViewById(R.id.view_pager)
 
-        listener?.onTabBarCreate(adapter)
         viewPager.adapter = adapter
         tabs = v.findViewById(R.id.tabs)
 
@@ -51,6 +52,8 @@ class TabBar : Fragment() {
         }
     }
 
+
+
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -59,11 +62,10 @@ class TabBar : Fragment() {
     private fun configure(config: TabBarConfig) {
         viewPager.isPagingEnabled = config.swipeable
         tabs.setSelectedTabIndicatorColor(config.indicatorColor)
-        listener?.onTabBarCreate(adapter)
+        withTabs?.invoke(adapter)
     }
 
     interface Listener {
-        fun onTabBarCreate(adapter: TabAdapter?)
     }
 
     companion object {

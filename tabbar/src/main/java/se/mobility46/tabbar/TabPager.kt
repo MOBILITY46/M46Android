@@ -2,10 +2,10 @@ package se.mobility46.tabbar
 
 import android.content.Context
 import android.view.MotionEvent
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 
-class TabPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
+class TabPager(context: Context, attrs: AttributeSet) : androidx.viewpager.widget.ViewPager(context, attrs) {
 
     var isPagingEnabled: Boolean = false
 
