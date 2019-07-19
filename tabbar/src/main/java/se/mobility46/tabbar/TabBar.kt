@@ -1,6 +1,5 @@
 package se.mobility46.tabbar
 
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -11,7 +10,7 @@ import android.view.ViewGroup
 private const val CONFIG = "config"
 
 class TabBar : Fragment() {
-    private var listener: OnTabBarInteractionListener? = null
+    private var listener: Listener? = null
     private var adapter: TabAdapter? = null
     private var config: TabBarConfig? = null
 
@@ -52,15 +51,6 @@ class TabBar : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnTabBarInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -71,7 +61,7 @@ class TabBar : Fragment() {
         tabs.setSelectedTabIndicatorColor(config.indicatorColor)
     }
 
-    interface OnTabBarInteractionListener {
+    interface Listener {
         fun onTabBarCreate(adapter: TabAdapter?)
     }
 
