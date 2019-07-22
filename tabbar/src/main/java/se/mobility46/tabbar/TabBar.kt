@@ -10,14 +10,13 @@ import android.view.ViewGroup
 private const val CONFIG = "config"
 
 class TabBar : Fragment() {
-    private var listener: Listener? = null
-    private var adapter: TabAdapter? = null
     private var config: TabBarConfig? = null
 
     private lateinit var viewPager: TabPager
-    private lateinit var tabs: TabLayout
+    private lateinit var layout: TabLayout
+    private lateinit var adapter: TabAdapter
 
-    var withTabs: ((adapter: TabAdapter?) -> Unit)? = null
+    var tabs: Map<String, Fragment> = emptyMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,39 +32,31 @@ class TabBar : Fragment() {
         val v = inflater.inflate(R.layout.fragment_tab_bar, container, false)
         fragmentManager?.let {
             adapter = TabAdapter(it)
+            tabs.forEach { tab ->
+                adapter.add(tab.value, tab.key)
+            }
+
+            viewPager = v.findViewById(R.id.view_pager)
+
+            viewPager.adapter = adapter
+            layout = v.findViewById(R.id.tabs)
+
+            layout.setupWithViewPager(viewPager)
         }
-
-        viewPager = v.findViewById(R.id.view_pager)
-
-        viewPager.adapter = adapter
-        tabs = v.findViewById(R.id.tabs)
-
-        tabs.setupWithViewPager(viewPager)
 
         return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-         config?.let {
+        config?.let {
             configure(it)
         }
     }
 
-
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     private fun configure(config: TabBarConfig) {
         viewPager.isPagingEnabled = config.swipeable
-        tabs.setSelectedTabIndicatorColor(config.indicatorColor)
-        withTabs?.invoke(adapter)
-    }
-
-    interface Listener {
+        layout.setSelectedTabIndicatorColor(config.indicatorColor)
     }
 
     companion object {

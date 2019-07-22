@@ -2,12 +2,13 @@ package se.mobility46.m46android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import se.mobility46.m46androidcard.R
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import se.mobility46.m46card.Card
 import se.mobility46.tabbar.TabBar
 import se.mobility46.tabbar.TabBarConfig
 
-inline fun androidx.fragment.app.FragmentManager.inTransaction(func: androidx.fragment.app.FragmentTransaction.() -> androidx.fragment.app.FragmentTransaction) =
+inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
     beginTransaction().func().commit()
 
 class MainActivity : AppCompatActivity() {
@@ -29,12 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         tabBar = TabBar.newInstance(config)
 
-        tabBar.withTabs = { adapter ->
-            adapter?.add(TabOneFragment.newInstance(), "tab 1")
-            adapter?.add(TabTwoFragment.newInstance(), "tab 2")
-            adapter?.add(TabThreeFragment.newInstance(), "tab 3")
-            adapter?.notifyDataSetChanged()
-        }
+        tabBar.tabs = mapOf(
+            "tab 1" to TabOneFragment.newInstance(),
+            "tab 2" to TabTwoFragment.newInstance(),
+            "tab 3" to TabThreeFragment.newInstance()
+            )
 
         supportFragmentManager.inTransaction {
             add(R.id.fragment_container, tabBar)

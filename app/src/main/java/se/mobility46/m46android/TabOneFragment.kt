@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import se.mobility46.m46androidcard.R
 
 class TabOneFragment : androidx.fragment.app.Fragment() {
 

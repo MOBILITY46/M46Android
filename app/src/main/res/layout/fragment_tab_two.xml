@@ -2,9 +2,8 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="se.mobility46.m46androidcard.se.mobility46.m46android.TabTwoFragment">
+             tools:context="se.mobility46.m46android.TabTwoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
