@@ -7,6 +7,7 @@
               android:orientation="vertical"
               tools:context="se.mobility46.tabbar.TabBar">
 
+
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
