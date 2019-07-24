@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
 
 private const val CONFIG = "config"
 
-class TabBar : Fragment() {
+class TabBar : Fragment(), ViewPager.OnPageChangeListener {
+
+
     private var config: TabBarConfig? = null
 
     private lateinit var viewPager: TabPager
@@ -17,6 +20,8 @@ class TabBar : Fragment() {
     private lateinit var adapter: TabAdapter
 
     var tabs: Map<String, Fragment> = emptyMap()
+
+    var listener: Listener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,8 @@ class TabBar : Fragment() {
             viewPager = v.findViewById(R.id.view_pager)
 
             viewPager.adapter = adapter
+
+            viewPager.addOnPageChangeListener(this)
             layout = v.findViewById(R.id.tabs)
 
             layout.setupWithViewPager(viewPager)
@@ -57,6 +64,24 @@ class TabBar : Fragment() {
     private fun configure(config: TabBarConfig) {
         viewPager.isPagingEnabled = config.swipeable
         layout.setSelectedTabIndicatorColor(config.indicatorColor)
+    }
+
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+        println("selected $position")
+        val keys = ArrayList(tabs.keys)
+        tabs[keys[position]]?.let {
+            listener?.onTabSelected(it)
+        }
+    }
+
+    interface Listener {
+        fun onTabSelected(tab: Fragment)
     }
 
     companion object {

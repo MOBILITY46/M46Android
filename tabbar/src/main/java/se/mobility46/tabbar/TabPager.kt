@@ -1,9 +1,9 @@
 package se.mobility46.tabbar
 
 import android.content.Context
+import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
-import android.util.AttributeSet
 
 class TabPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
 
@@ -11,6 +11,7 @@ class TabPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs
 
     init {
         this.isPagingEnabled = true
+        this.offscreenPageLimit = Int.MAX_VALUE
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
