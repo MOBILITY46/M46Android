@@ -35,7 +35,7 @@ class TabBar : Fragment(), ViewPager.OnPageChangeListener {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_tab_bar, container, false)
-        fragmentManager?.let {
+        childFragmentManager.let {
 
             viewPager = v.findViewById(R.id.view_pager)
 
