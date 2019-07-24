@@ -36,13 +36,10 @@ class TabBar : Fragment(), ViewPager.OnPageChangeListener {
     ): View? {
         val v = inflater.inflate(R.layout.fragment_tab_bar, container, false)
         fragmentManager?.let {
-            adapter = TabAdapter(it)
-            tabs.forEach { tab ->
-                adapter.add(tab.value, tab.key)
-            }
 
             viewPager = v.findViewById(R.id.view_pager)
 
+            adapter = TabAdapter(it, ArrayList(tabs.keys), ArrayList(tabs.values))
             viewPager.adapter = adapter
 
             viewPager.addOnPageChangeListener(this)

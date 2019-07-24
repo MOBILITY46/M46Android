@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter
 
-class TabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
-    private val tabNames: ArrayList<String> = ArrayList()
-    private val fragments: ArrayList<Fragment> = ArrayList()
+class TabAdapter(
+    fm: FragmentManager, private val tabNames: ArrayList<String>,
+    private val fragments: ArrayList<Fragment>
+) : FragmentPagerAdapter(fm) {
 
     fun add(fragment: Fragment, title: String) {
         tabNames.add(title)
@@ -25,5 +25,4 @@ class TabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getPageTitle(position: Int): CharSequence {
         return tabNames[position]
     }
-
 }
