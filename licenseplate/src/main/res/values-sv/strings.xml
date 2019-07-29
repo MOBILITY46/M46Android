@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">ok</string>
+    <string name="cancel">avbryt</string>
+
+    <string name="copy_title">Uppdatera registreringsskylt</string>
+    <string name="copy_message">Ange ditt registreringsnummer. Endast det angivna fordonet tillåts parkera.</string>
+</resources>
