@@ -6,18 +6,16 @@ import android.content.DialogInterface
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
-import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
 import android.text.Spanned
 import android.util.AttributeSet
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
-class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx, attrs), View.OnClickListener {
+class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx, attrs) {
 
     private val paint: Paint = Paint()
     private val path: Path = Path()
@@ -50,12 +48,6 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
         @RequiresApi
         clipToOutline = true
-
-        setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        toggle()
     }
 
     fun toggle() {
