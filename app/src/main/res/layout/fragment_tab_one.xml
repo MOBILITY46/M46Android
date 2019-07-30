@@ -5,6 +5,7 @@
              tools:context="se.mobility46.m46android.TabOneFragment">
 
     <se.mobility46.licenseplate.LicensePlate
+            android:id="@+id/plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -55,10 +55,13 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
     }
 
     override fun onClick(v: View?) {
+        toggle()
+    }
+
+    fun toggle() {
         val dialog = createDialog {
             listener?.valueChanged(it)
         }
-
         dialog.show()
     }
 
@@ -82,7 +85,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         super.onDraw(canvas)
     }
 
-    private fun createDialog(onSuccess: (v: String) -> Unit) : AlertDialog {
+    private fun createDialog(onSuccess: (v: String) -> Unit): AlertDialog {
         val dialog = AlertDialog.Builder(ctx)
 
         dialog.setTitle(R.string.copy_title)
