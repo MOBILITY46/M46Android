@@ -1,1 +1,1 @@
-include ':app', ':card', ':tabbar', ':licenseplate'
+include ':app', ':card', ':tabbar', ':licenseplate', ':cache'
