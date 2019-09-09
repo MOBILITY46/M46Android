@@ -11,7 +11,7 @@ internal class Transformer<V>: TwoWayTransform<String, Entry<V>> {
     }
 
     override fun transform(value: String): Entry<V> {
-        return Gson().fromJson(value, object: TypeToken<V>() {}.type)
+        return Gson().fromJson(value, object: TypeToken<Entry<V>>() {}.type)
     }
 
 }

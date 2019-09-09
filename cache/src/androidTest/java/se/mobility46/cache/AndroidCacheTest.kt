@@ -15,12 +15,12 @@ class AndroidCacheTest {
     private lateinit var store: Store<TestUser>
 
     private val key = "my-key"
-    private val testObject = TestUser("John", "Doe")
+    private val testObject: TestUser = TestUser("John", "Doe")
 
     @Before
     fun setUp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val config = Config(context.cacheDir, 20)
+        val config = Config(context.cacheDir, 1024)
         store = Store(config)
     }
 
@@ -53,8 +53,8 @@ class AndroidCacheTest {
     @Test
     fun entry() {
         try {
+            runBlocking { store.add(key, testObject) }
             val result = runBlocking {
-                store.add(key, testObject)
                 store.entry(key)
             }
             assertNotNull("Entry could not be found", result)

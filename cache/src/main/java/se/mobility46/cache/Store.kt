@@ -15,14 +15,14 @@ class Store<T: Any>(config: Config): StoreAware<T> {
         val disk = Cache.createDiskLruCache(config.directory, config.maxSize)
             .valueTransform(Transformer<T>())
 
-        cache = mem.compose(disk)
+        cache = disk.compose(mem)
     }
 
     override suspend fun entry(key: String): Entry<T>? {
         try {
             return cache.get(key).await()
         } catch (e: java.lang.Exception) {
-            throw Exception("Entry could not be found")
+            throw Exception(e)
         }
     }
 
