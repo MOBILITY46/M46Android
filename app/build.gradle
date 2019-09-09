@@ -38,4 +38,5 @@ dependencies {
     api project(path: ':card')
     api project(path: ':tabbar')
     api project(path: ':licenseplate')
+    api project(path: ':cache')
 }
