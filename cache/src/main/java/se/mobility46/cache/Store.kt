@@ -8,6 +8,8 @@ class Store<T: Any>(config: Config): StoreAware<T> {
 
     private var cache: Cache<String, Entry<T>>
 
+    class Exception(override val message: String): java.lang.Exception()
+
     init {
         val mem = Cache.createLruCache<String, Entry<T>>(config.maxSize.toInt())
         val disk = Cache.createDiskLruCache(config.directory, config.maxSize)
@@ -17,19 +19,35 @@ class Store<T: Any>(config: Config): StoreAware<T> {
     }
 
     override suspend fun entry(key: String): Entry<T>? {
-        return cache.get(key).await()
+        try {
+            return cache.get(key).await()
+        } catch (e: java.lang.Exception) {
+            throw Exception("Entry could not be found")
+        }
     }
 
     override suspend fun add(key: String, item: T) {
-        cache.set(key, Entry(item)).await()
+        try {
+            cache.set(key, Entry(item)).await()
+        } catch (e: java.lang.Exception) {
+            throw Exception("Item could not be added")
+        }
     }
 
     override suspend fun remove(key: String) {
-        cache.evict(key).await()
+        try {
+            cache.evict(key).await()
+        } catch (e: java.lang.Exception) {
+            throw Exception("Item could not be removed")
+        }
     }
 
     override suspend fun removeAll() {
-        cache.evictAll().await()
+        try {
+            cache.evictAll().await()
+        } catch (e: java.lang.Exception) {
+            throw Exception("Items could not be removed")
+        }
     }
 
 }
