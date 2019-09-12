@@ -4,21 +4,21 @@ import com.appmattus.layercache.Cache
 import com.appmattus.layercache.createDiskLruCache
 import com.appmattus.layercache.createLruCache
 
-class Store<T: Any>(config: Config): StoreAware<T> {
+class Store<T: Any>(config: Config<T>): StoreAware<T> {
 
-    private var cache: Cache<String, Entry<T>>
+    private var cache: Cache<String, T>
 
     class Exception(override val message: String): java.lang.Exception()
 
     init {
-        val mem = Cache.createLruCache<String, Entry<T>>(config.maxSize.toInt())
+        val mem = Cache.createLruCache<String, T>(config.maxSize.toInt())
         val disk = Cache.createDiskLruCache(config.directory, config.maxSize)
-            .valueTransform(Transformer<T>())
+            .valueTransform(config.transformer)
 
         cache = disk.compose(mem)
     }
 
-    override suspend fun entry(key: String): Entry<T>? {
+    override suspend fun entry(key: String): T? {
         try {
             return cache.get(key).await()
         } catch (e: java.lang.Exception) {
@@ -28,7 +28,7 @@ class Store<T: Any>(config: Config): StoreAware<T> {
 
     override suspend fun add(key: String, item: T) {
         try {
-            cache.set(key, Entry(item)).await()
+            cache.set(key, item).await()
         } catch (e: java.lang.Exception) {
             throw Exception("Item could not be added")
         }

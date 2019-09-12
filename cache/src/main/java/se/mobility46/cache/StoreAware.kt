@@ -2,7 +2,7 @@ package se.mobility46.cache
 
 internal interface StoreAware<T: Any> {
 
-    suspend fun entry(key: String): Entry<T>?
+    suspend fun entry(key: String): T?
 
     suspend fun add(key: String, item: T)
 

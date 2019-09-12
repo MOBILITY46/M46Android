@@ -35,10 +35,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.appmattus:layercache:0.4.0'
     implementation 'com.appmattus:layercache-android:0.4.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -46,6 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
 }
+
 repositories {
     mavenCentral()
     jcenter()

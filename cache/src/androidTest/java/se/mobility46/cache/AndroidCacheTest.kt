@@ -8,6 +8,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import se.mobility46.cache.models.TestUser
+import se.mobility46.cache.models.TestUserDecoder
+import se.mobility46.cache.models.TestUserEncoder
+
+class UserTransformer: Transformer<TestUser> {
+    override fun inverseTransform(mappedValue: TestUser): String =
+        TestUserEncoder().encode(mappedValue)
+
+    override fun transform(value: String): TestUser =
+        TestUserDecoder().decode(value)
+}
+
+
 
 @RunWith(AndroidJUnit4::class)
 class AndroidCacheTest {
@@ -15,12 +28,13 @@ class AndroidCacheTest {
     private lateinit var store: Store<TestUser>
 
     private val key = "my-key"
-    private val testObject: TestUser = TestUser("John", "Doe")
+    private val testObject: TestUser =
+        TestUser("John", "Doe")
 
     @Before
     fun setUp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val config = Config(context.cacheDir, 1024)
+        val config = Config(context.cacheDir, 1024, UserTransformer())
         store = Store(config)
     }
 
@@ -57,6 +71,9 @@ class AndroidCacheTest {
             val result = runBlocking {
                 store.entry(key)
             }
+
+            assertEquals("John", result!!.firstName)
+            assertEquals("Doe", result!!.lastName)
             assertNotNull("Entry could not be found", result)
         } catch (e: Store.Exception) {
             fail(e.message)
