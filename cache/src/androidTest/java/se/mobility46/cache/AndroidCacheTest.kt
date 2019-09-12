@@ -13,14 +13,12 @@ import se.mobility46.cache.models.TestUserDecoder
 import se.mobility46.cache.models.TestUserEncoder
 
 class UserTransformer: Transformer<TestUser> {
-    override fun inverseTransform(mappedValue: TestUser): String =
-        TestUserEncoder().encode(mappedValue)
+    override fun serialize(value: TestUser): String =
+        TestUserEncoder().encode(value)
 
-    override fun transform(value: String): TestUser =
+    override fun deserialize(value: String): TestUser =
         TestUserDecoder().decode(value)
 }
-
-
 
 @RunWith(AndroidJUnit4::class)
 class AndroidCacheTest {
