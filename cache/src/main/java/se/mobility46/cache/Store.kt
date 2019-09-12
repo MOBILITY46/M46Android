@@ -3,17 +3,20 @@ package se.mobility46.cache
 import com.appmattus.layercache.Cache
 import com.appmattus.layercache.createDiskLruCache
 import com.appmattus.layercache.createLruCache
+import se.mobility46.cache.Entry as Entry
 
 class Store<T: Any>(config: Config): StoreAware<T> {
+
 
     private var cache: Cache<String, Entry<T>>
 
     class Exception(override val message: String): java.lang.Exception()
 
     init {
+
         val mem = Cache.createLruCache<String, Entry<T>>(config.maxSize.toInt())
         val disk = Cache.createDiskLruCache(config.directory, config.maxSize)
-            .valueTransform(Transformer<T>())
+            .serializer<String, T, Entry<T>>()
 
         cache = disk.compose(mem)
     }
