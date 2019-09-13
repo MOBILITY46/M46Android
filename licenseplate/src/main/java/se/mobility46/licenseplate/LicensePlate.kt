@@ -21,7 +21,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
     private val path: Path = Path()
     var listener: InteractionListener? = null
 
-    var maxCharacterCount = 10
+    var maxCharacterCount = 7
 
     private val hint = "ABC123"
 
