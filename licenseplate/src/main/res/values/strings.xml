@@ -5,4 +5,5 @@
 
     <string name="copy_title">Update License Plate</string>
     <string name="copy_message">Please enter your license plate. Only the provided plate will be valid for parking.</string>
+    <string name="copy_for">for</string>
 </resources>

@@ -5,4 +5,5 @@
 
     <string name="copy_title">Uppdatera registreringsskylt</string>
     <string name="copy_message">Ange ditt registreringsnummer. Endast det angivna fordonet tillåts parkera.</string>
+    <string name="copy_for">för</string>
 </resources>

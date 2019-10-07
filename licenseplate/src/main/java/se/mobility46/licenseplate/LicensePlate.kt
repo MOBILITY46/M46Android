@@ -32,6 +32,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         }
 
     interface InteractionListener {
+        var licensePlateLabel: String?
         fun valueChanged(value: String)
     }
 
@@ -80,7 +81,13 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
     private fun createDialog(onSuccess: (v: String) -> Unit): AlertDialog {
         val dialog = AlertDialog.Builder(ctx)
 
-        dialog.setTitle(R.string.copy_title)
+        var title = resources.getString(R.string.copy_title)
+        if (listener?.licensePlateLabel != null) {
+           title = title.plus(" ${resources.getString(R.string.copy_for)} ")
+            .plus(listener?.licensePlateLabel)
+        }
+
+        dialog.setTitle(title)
         dialog.setMessage(R.string.copy_message)
 
         val input = EditText(ctx)

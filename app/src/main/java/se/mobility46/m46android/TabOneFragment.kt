@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import se.mobility46.licenseplate.LicensePlate
 
 class TabOneFragment : androidx.fragment.app.Fragment(), LicensePlate.InteractionListener {
+    override var licensePlateLabel: String? = "TEST"
+
     override fun valueChanged(value: String) {
         println("valueChanged($value)")
     }
@@ -21,6 +23,10 @@ class TabOneFragment : androidx.fragment.app.Fragment(), LicensePlate.Interactio
 
         plate = view.findViewById(R.id.plate)
         plate.listener = this
+
+        view.setOnClickListener {
+            plate.toggle()
+        }
 
         return view
     }
