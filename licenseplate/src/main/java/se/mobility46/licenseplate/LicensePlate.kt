@@ -109,6 +109,9 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
                     value = v
                     onSuccess.invoke(v)
                 }
+                else -> {
+                    value = input.text.toString()
+                }
             }
             false
         }
@@ -120,7 +123,6 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         input.setSingleLine()
 
         dialog.setView(input)
-
 
         dialog.setPositiveButton(R.string.ok) { d: DialogInterface, _ ->
             val v = input.text.toString()
