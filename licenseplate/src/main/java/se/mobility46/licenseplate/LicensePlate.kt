@@ -8,15 +8,14 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.text.InputFilter
 import android.text.InputType
-import android.text.Spanned
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
 class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx, attrs) {
-
     private val paint: Paint = Paint()
     private val path: Path = Path()
     var listener: InteractionListener? = null
@@ -100,6 +99,20 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
             }
         )
 
+        input.setOnKeyListener { _, keyCode, _ ->
+            when (keyCode) {
+                KeyEvent.KEYCODE_ENTER -> {
+                    val v = input.text.toString()
+                    if (v != value) {
+                        value = v
+                        onSuccess.invoke(v)
+                    }
+                }
+            }
+            true
+        }
+
+
         input.inputType = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
         input.setText(value)
         input.hint = hint
@@ -112,7 +125,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
             val v = input.text.toString()
             if (v != value) {
                 value = v
-                onSuccess.invoke(value)
+                onSuccess.invoke(v)
             }
             d.dismiss()
         }
