@@ -21,6 +21,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
     private val path: Path = Path()
     var listener: InteractionListener? = null
 
+
     var maxCharacterCount = 7
 
     private val hint = "ABC123"
@@ -38,7 +39,6 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
     init {
         isAllCaps = true
-
         setBackgroundResource(R.drawable.plate)
         setTextColor(ContextCompat.getColor(ctx, R.color.black))
         setPadding(45, 7, 15, 7)
@@ -95,10 +95,12 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         input.filters = arrayOf(
             InputFilter.LengthFilter(maxCharacterCount),
             InputFilter.AllCaps(),
-            AlphaNumericInputFilter()
+            InputFilter { s, _, _, _, _, _ ->
+                s.replace(Regex("[^A-Za-z0-9]"), "")
+            }
         )
 
-        input.inputType = InputType.TYPE_CLASS_TEXT
+        input.inputType = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
         input.setText(value)
         input.hint = hint
         input.setSingleLine()
@@ -112,7 +114,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
                 value = v
                 onSuccess.invoke(value)
             }
-            d.cancel()
+            d.dismiss()
         }
 
         dialog.setNegativeButton(R.string.cancel) { d: DialogInterface, _ ->
@@ -122,35 +124,5 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         input.requestFocus()
         return dialog.create()
     }
-
-    inner class AlphaNumericInputFilter : InputFilter {
-        override fun filter(
-            source: CharSequence?,
-            start: Int,
-            end: Int,
-            dest: Spanned?,
-            dstart: Int,
-            dend: Int
-        ): CharSequence {
-
-            val builder = StringBuilder()
-
-            for (i in start until end) {
-                source?.get(i)?.let {
-                    if (Character.isLetterOrDigit(it)) {
-                        builder.append(it)
-                    }
-                }
-            }
-
-            val allCharactersValid = (builder.length == end - start)
-            if (allCharactersValid) {
-                return builder.toString()
-            }
-            return ""
-        }
-
-    }
-
 }
 

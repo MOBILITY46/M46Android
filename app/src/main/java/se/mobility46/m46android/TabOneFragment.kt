@@ -4,13 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import kotlinx.coroutines.*
 import se.mobility46.licenseplate.LicensePlate
 
 class TabOneFragment : androidx.fragment.app.Fragment(), LicensePlate.InteractionListener {
     override var licensePlateLabel: String? = "TEST"
 
     override fun valueChanged(value: String) {
-        println("valueChanged($value)")
+        GlobalScope.launch(Dispatchers.Main) {
+            runAsyncTask(value)
+        }
+    }
+
+    private suspend fun runAsyncTask(value: String) {
+        delay(1000)
+        val toast = Toast
+            .makeText(context, "HEJ PELLE! NYA VÄRDET ÄR: $value", Toast.LENGTH_LONG)
+        toast.show()
     }
 
     lateinit var plate: LicensePlate
