@@ -61,11 +61,6 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         dialog.show()
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        listener = null
-    }
-
     override fun onDraw(canvas: Canvas?) {
 
         val h = height.toFloat()
@@ -122,13 +117,13 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
         dialog.setView(input)
 
-        dialog.setPositiveButton(R.string.ok) { d: DialogInterface, _ ->
+        dialog.setPositiveButton(R.string.ok) { _, _ ->
             val v = input.text.toString()
             value = v
             onSuccess.invoke(v)
         }
 
-        dialog.setNegativeButton(R.string.cancel) { d: DialogInterface, _ ->
+        dialog.setNegativeButton(R.string.cancel) { d, _ ->
             d.dismiss()
         }
 
