@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
@@ -21,13 +22,13 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
     var listener: InteractionListener? = null
 
 
-    var maxCharacterCount = 7
+    private var maxCharacterCount = 7
 
     private val hint = "ABC123"
 
     var value: String = hint
         set(value) {
-            this.text = value
+            this.text = when (value.isEmpty()) { true -> null else -> value }
             field = value
         }
 
@@ -38,6 +39,8 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
     init {
         isAllCaps = true
+        isFocusable = false
+        isActivated = false
         setBackgroundResource(R.drawable.plate)
         setTextColor(ContextCompat.getColor(ctx, R.color.black))
         setPadding(45, 7, 15, 7)
@@ -46,7 +49,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         paint.color = ContextCompat.getColor(ctx, R.color.blue)
         paint.strokeWidth = 1f
 
-        @RequiresApi
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         clipToOutline = true
     }
 
@@ -95,7 +98,7 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
             InputFilter.LengthFilter(maxCharacterCount),
             InputFilter.AllCaps(),
             InputFilter { s, _, _, _, _, _ ->
-                s.replace(Regex("[^A-Za-z0-9]"), "")
+                s.replace(Regex("[^A-Za-z0-9 ]"), "")
             }
         )
 
@@ -103,13 +106,11 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
             when (keyCode) {
                 KeyEvent.KEYCODE_ENTER -> {
                     val v = input.text.toString()
-                    if (v != value) {
-                        value = v
-                        onSuccess.invoke(v)
-                    }
+                    value = v
+                    onSuccess.invoke(v)
                 }
             }
-            true
+            false
         }
 
 
@@ -123,10 +124,8 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
         dialog.setPositiveButton(R.string.ok) { d: DialogInterface, _ ->
             val v = input.text.toString()
-            if (v != value) {
-                value = v
-                onSuccess.invoke(v)
-            }
+            value = v
+            onSuccess.invoke(v)
             d.dismiss()
         }
 
