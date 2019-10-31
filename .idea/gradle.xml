@@ -11,11 +11,13 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cache" />
             <option value="$PROJECT_DIR$/card" />
+            <option value="$PROJECT_DIR$/jwt" />
             <option value="$PROJECT_DIR$/licenseplate" />
             <option value="$PROJECT_DIR$/tabbar" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>
