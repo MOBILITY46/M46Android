@@ -1,1 +1,3 @@
+include ':datetimepicker'
+include ':lib'
 include ':app', ':card', ':tabbar', ':licenseplate', ':cache', ':jwt'

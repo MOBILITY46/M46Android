@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
 
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
+
+
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
@@ -15,6 +19,10 @@ android {
 
     }
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,22 +30,25 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = "1.5"
-        targetCompatibility = "1.5"
-    }
-
-    buildToolsVersion = '28.0.3'
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.appmattus:layercache:0.4.0'
+    implementation 'com.appmattus:layercache-android:0.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
 }
+
 repositories {
     mavenCentral()
+    jcenter()
+    google()
+    maven { url "https://kotlin.bintray.com/kotlinx" }
 }
