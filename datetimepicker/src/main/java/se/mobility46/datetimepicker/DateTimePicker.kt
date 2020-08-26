@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 private const val DATE = "date"
@@ -19,14 +18,16 @@ private const val DATE = "date"
 @RequiresApi(Build.VERSION_CODES.O)
 class DateTimePicker : Fragment(), View.OnClickListener {
     private lateinit var button: Button
+    private lateinit var subText: TextView
 
     private lateinit var dp: DatePickerDialog
     private lateinit var tp: TimePickerHelper
 
-    private var date: LocalDateTime? = null
+    var date: LocalDateTime? = null
         set(value) {
             if (this::button.isInitialized) {
                 this.button.text = this.digits(value)
+                this.subText.text = this.dateString(value)
                 field = value
             }
         }
@@ -79,6 +80,7 @@ class DateTimePicker : Fragment(), View.OnClickListener {
         val view = inflater.inflate(R.layout.fragment_date_time_picker, container, false)
         this.button = view.findViewById(R.id.btn)
         this.button.text = "00:00"
+        this.subText = view.findViewById(R.id.sub_text)
 
         this.dp = DatePickerDialog(this.requireContext())
 
@@ -95,17 +97,19 @@ class DateTimePicker : Fragment(), View.OnClickListener {
             val month = m
             val day = d
 
-            this.maxDate?.let {
-                this.setMaximum(it)
-            }
-
-            this.minDate?.let {
-                this.setMinimum(it)
-            }
-
             this.tp = TimePickerHelper(this.requireContext(), true, false) { _, h, m ->
-                this.date = LocalDateTime.of(year, month, day, h, m)
-                this.listener?.valueChanged(this, this.date)
+                var date = LocalDateTime.of(year, month + 1, day, h, m)
+
+                if (date.isBefore(this.minDate)) {
+                    date = this.minDate
+                }
+
+                if (date.isAfter(this.maxDate)) {
+                    date = this.maxDate
+                }
+
+                this.date = date
+                this.listener?.valueChanged(this, date)
             }
 
             if (date == null) {
@@ -124,12 +128,14 @@ class DateTimePicker : Fragment(), View.OnClickListener {
     }
 
     private fun setMinimum(date: LocalDateTime) {
-        val instant = date.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant()
+        val offset = ZoneOffset.systemDefault().rules.getOffset(date)
+        val instant = date.toInstant(offset)
         this.dp.datePicker.minDate = instant.toEpochMilli()
     }
 
     private fun setMaximum(date: LocalDateTime) {
-        val instant = date.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant()
+        val offset = ZoneOffset.systemDefault().rules.getOffset(date)
+        val instant = date.toInstant(offset)
         this.dp.datePicker.maxDate = instant.toEpochMilli()
     }
 
@@ -138,6 +144,13 @@ class DateTimePicker : Fragment(), View.OnClickListener {
             return "00:00"
         }
         return date.format(DateTimeFormatter.ofPattern("HH:mm")).toString()
+    }
+
+    private fun dateString(date: LocalDateTime?): String {
+        if (date == null) {
+            return ""
+        }
+        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
     }
 
     companion object {
