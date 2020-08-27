@@ -43,7 +43,7 @@ class TabTwoFragment : androidx.fragment.app.Fragment(), DateTimePicker.Listener
         val formatter = DateTimeFormatter.ISO_DATE_TIME
 
         val now = LocalDateTime.now()
-        val maxDate = now.plusMinutes(60)
+        val maxDate = now.plusMinutes(60 * 8)
 //        val maxDate = OffsetDateTime.parse("2020-08-26T13:00:00+02:00", formatter).toLocalDateTime()
 
         dateTimePicker.minDate = now

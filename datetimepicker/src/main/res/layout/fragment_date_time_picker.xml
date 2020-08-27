@@ -8,6 +8,7 @@
 
     <Button android:id="@+id/btn"
             android:layout_width="match_parent"
+            android:drawableRight="@drawable/ic_edit"
             android:padding="2dp"
             android:background="@android:color/transparent"
             android:textSize="30sp"
