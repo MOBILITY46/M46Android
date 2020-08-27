@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 
 class TabTwoFragment : androidx.fragment.app.Fragment(), DateTimePicker.Listener {
 
-    val dateTimePicker = DateTimePicker.newInstance(null)
+    lateinit var dateTimePicker: DateTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,6 +21,7 @@ class TabTwoFragment : androidx.fragment.app.Fragment(), DateTimePicker.Listener
         val view = inflater.inflate(R.layout.fragment_tab_two, container, false)
 
 
+        dateTimePicker = DateTimePicker.newInstance(this.requireContext(), null)
         dateTimePicker.listener = this
 
         this.fragmentManager?.inTransaction {

@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), TabBar.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         card = findViewById(R.id.card)
 
         card.setOnClickListener {

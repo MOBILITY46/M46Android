@@ -8,15 +8,14 @@ import java.util.*
 class TimePickerHelper(
     context: Context,
     is24HourView: Boolean,
-    isSpinnerType: Boolean = false,
     callback: (v: View, h: Int, m: Int) -> Unit
 ) {
     private var dialog: TimePickerDialog
 
     init {
-        val style = if (isSpinnerType) R.style.SpinnerTimePickerDialog else 0
         val cal = Calendar.getInstance()
-        dialog = TimePickerDialog(context, style, callback,
+
+        dialog = TimePickerDialog(context, callback,
             cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24HourView)
     }
 

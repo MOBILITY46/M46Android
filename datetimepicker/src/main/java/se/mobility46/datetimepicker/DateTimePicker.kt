@@ -1,6 +1,7 @@
 package se.mobility46.datetimepicker
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter
 private const val DATE = "date"
 
 @RequiresApi(Build.VERSION_CODES.O)
-class DateTimePicker : Fragment(), View.OnClickListener {
+class DateTimePicker(val ctx: Context) : Fragment(), View.OnClickListener {
     private lateinit var button: Button
     private lateinit var subText: TextView
 
@@ -82,7 +83,7 @@ class DateTimePicker : Fragment(), View.OnClickListener {
         this.button.text = "00:00"
         this.subText = view.findViewById(R.id.sub_text)
 
-        this.dp = DatePickerDialog(this.requireContext())
+        this.dp = DatePickerDialog(ctx)
 
         this.maxDate?.let {
             this.setMaximum(it)
@@ -97,14 +98,14 @@ class DateTimePicker : Fragment(), View.OnClickListener {
             val month = m
             val day = d
 
-            this.tp = TimePickerHelper(this.requireContext(), true, false) { _, h, m ->
+            this.tp = TimePickerHelper(this.ctx, true) { _, h, m ->
                 var date = LocalDateTime.of(year, month + 1, day, h, m)
 
-                if (date.isBefore(this.minDate)) {
+                if (this.minDate != null && date.isBefore(this.minDate)) {
                     date = this.minDate
                 }
 
-                if (date.isAfter(this.maxDate)) {
+                if (this.maxDate != null && date.isAfter(this.maxDate)) {
                     date = this.maxDate
                 }
 
@@ -155,8 +156,8 @@ class DateTimePicker : Fragment(), View.OnClickListener {
 
     companion object {
         @JvmStatic
-        fun newInstance(date: LocalDateTime?) =
-            DateTimePicker().apply {
+        fun newInstance(context: Context, date: LocalDateTime?) =
+            DateTimePicker(context).apply {
                 arguments = Bundle().apply {
                     date?.let {
                         putString(DATE, it.format(DateTimeFormatter.ISO_DATE_TIME))
@@ -164,6 +165,4 @@ class DateTimePicker : Fragment(), View.OnClickListener {
                 }
             }
     }
-
-
 }
