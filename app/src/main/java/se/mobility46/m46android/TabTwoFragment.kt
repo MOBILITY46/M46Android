@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import se.mobility46.datetimepicker.DateTimePicker
-import java.text.DateFormat
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 class TabTwoFragment : androidx.fragment.app.Fragment(), DateTimePicker.Listener {
 
-    lateinit var dateTimePicker: DateTimePicker
+    var dateTimePicker: DateTimePicker = DateTimePicker.newInstance(null)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,7 +19,6 @@ class TabTwoFragment : androidx.fragment.app.Fragment(), DateTimePicker.Listener
         val view = inflater.inflate(R.layout.fragment_tab_two, container, false)
 
 
-        dateTimePicker = DateTimePicker.newInstance(this.requireContext(), null)
         dateTimePicker.listener = this
 
         this.fragmentManager?.inTransaction {
