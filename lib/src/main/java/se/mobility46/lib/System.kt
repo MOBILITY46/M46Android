@@ -7,12 +7,7 @@ import java.util.*
 class System {
 
     enum class ErrorType {
-        PACKAGE_LABEL,
         APP_VERSION,
-        DEVICE_OS,
-        ANDROID_VERSION,
-        DEVICE_MODEL,
-        LANGUAGE
     }
 
     class SystemException(type: ErrorType) : Exception(type.toString())
@@ -20,32 +15,18 @@ class System {
     companion object {
 
 
-        private fun appName(ctx: Context) : String {
-            val nameId = ctx.applicationInfo.labelRes
-            if (nameId == 0) {
-                val nonLocalized = ctx.applicationInfo.nonLocalizedLabel
-                if (nonLocalized != null) {
-                    return nonLocalized.toString()
-                } else {
-                    throw SystemException(ErrorType.PACKAGE_LABEL)
-                }
-            }
-            return ctx.getString(nameId)
-        }
-
         private fun appVersion(ctx: Context) : String? {
             try {
                 val info = ctx.packageManager.getPackageInfo(ctx.packageName, 0)
-                return info.versionName
+                return info.versionName.substring(0, info.versionName.indexOf(" ")).trim()
             } catch (e: Exception) {
                 throw SystemException(ErrorType.APP_VERSION)
             }
         }
 
-        fun description(context: Context) : Result<String> {
+        fun description(context: Context, appName: String) : Result<String> {
             return Result {
 
-                val appName = appName(context)
                 val appVersion = appVersion(context)
                 val deviceOS = "Android"
                 val androidVersion = android.os.Build.VERSION.RELEASE
