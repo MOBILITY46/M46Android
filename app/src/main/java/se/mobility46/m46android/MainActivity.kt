@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import se.mobility46.lib.*
 import se.mobility46.m46card.Card
 import se.mobility46.tabbar.TabBar
 import se.mobility46.tabbar.TabBarConfig
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity(), TabBar.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        System.description(this).map {
+            println("USER-AGENT: $it")
+        }
 
         card = findViewById(R.id.card)
 

@@ -11,6 +11,6 @@ class SystemTest {
     @Test fun returnsCorrectSystemDescription() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val description = System.description(context)
-        assertEquals(description, description, "123")
+        assertEquals("123", description)
     }
 }
