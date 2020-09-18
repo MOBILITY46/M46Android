@@ -49,7 +49,8 @@ class System {
                 val appVersion = appVersion(context)
                 val deviceOS = "Android"
                 val androidVersion = android.os.Build.VERSION.RELEASE
-                val deviceModel = android.os.Build.MANUFACTURER
+                val brand = android.os.Build.MANUFACTURER
+                val model = android.os.Build.DEVICE
 
                 val lang = Locale.getDefault().language
 
@@ -58,7 +59,7 @@ class System {
                     language = "sv"
                 }
 
-                return@Result "$appName/$appVersion; $deviceOS/$androidVersion; model=$deviceModel; lang=$language;"
+                return@Result "$appName/$appVersion; $deviceOS/$androidVersion; brand=$brand; model=$model; lang=$language;"
             }
         }
     }
