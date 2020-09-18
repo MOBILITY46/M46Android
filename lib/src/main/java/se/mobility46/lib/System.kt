@@ -39,7 +39,7 @@ class System {
                     language = "sv"
                 }
 
-                return@Result "$appName/$appVersion $deviceOS/$androidVersion Android; model=$deviceModel; lang=$language;"
+                return@Result "$appName/$appVersion; $deviceOS/$androidVersion; Android; model=$deviceModel; lang=$language;"
             }
         }
     }
