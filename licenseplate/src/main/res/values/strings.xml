@@ -2,6 +2,7 @@
 <resources>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
+    <string name="hint">ABC123</string>
 
     <string name="copy_title">Update License Plate</string>
     <string name="copy_message">Please enter your license plate. Only the provided plate will be valid for parking.</string>

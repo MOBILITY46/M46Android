@@ -7,20 +7,27 @@ import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.coroutines.*
 import se.mobility46.licenseplate.LicensePlate
+import se.mobility46.licenseplate.LicensePlateDialogFragment
 
 class TabOneFragment : androidx.fragment.app.Fragment(), LicensePlate.InteractionListener {
-    override var licensePlateLabel: String? = "TEST"
 
-    override fun valueChanged(value: String) {
+    override fun licensePlateValueChanged(value: String) {
         GlobalScope.launch(Dispatchers.Main) {
             runAsyncTask(value)
+        }
+    }
+
+    override fun onLicensePlateDialogShow(dialog: LicensePlateDialogFragment) {
+        val fm = this.fragmentManager
+        if (fm != null) {
+            dialog.show(fm, "license_plate_edit_fragment")
         }
     }
 
     private suspend fun runAsyncTask(value: String) {
         delay(1000)
         val toast = Toast
-            .makeText(context, "HEJ PELLE! NYA VÄRDET ÄR: $value", Toast.LENGTH_LONG)
+            .makeText(context, value, Toast.LENGTH_LONG)
         toast.show()
     }
 

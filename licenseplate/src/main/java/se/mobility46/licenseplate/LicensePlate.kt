@@ -1,30 +1,25 @@
 package se.mobility46.licenseplate
 
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
-import android.os.Build
-import android.text.InputFilter
-import android.text.InputType
 import android.util.AttributeSet
-import android.widget.EditText
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.AppCompatTextView
 
+class LicensePlate(
+    private val ctx: Context,
+    private val attrs: AttributeSet) : AppCompatTextView(ctx, attrs) {
 
-class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx, attrs) {
     private val paint: Paint = Paint()
     private val path: Path = Path()
-    var listener: InteractionListener? = null
-
-
-    private var maxCharacterCount = 7
 
     private val hint = "ABC123"
+
+    var listener: InteractionListener? = null
+    var identifier: String? = null
+
 
     var value: String = hint
         set(value) {
@@ -33,8 +28,8 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         }
 
     interface InteractionListener {
-        var licensePlateLabel: String?
-        fun valueChanged(value: String)
+        fun licensePlateValueChanged(value: String)
+        fun onLicensePlateDialogShow(dialog: LicensePlateDialogFragment)
     }
 
     init {
@@ -44,24 +39,13 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         setBackgroundResource(R.drawable.plate)
         setTextColor(ContextCompat.getColor(ctx, R.color.black))
         setPadding(45, 7, 15, 7)
-
         paint.style = Paint.Style.FILL
         paint.color = ContextCompat.getColor(ctx, R.color.blue)
         paint.strokeWidth = 1f
-
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         clipToOutline = true
     }
 
-    fun toggle() {
-        val dialog = createDialog {
-            listener?.valueChanged(it)
-        }
-        dialog.show()
-    }
-
     override fun onDraw(canvas: Canvas?) {
-
         val h = height.toFloat()
 
         path.moveTo(0f, 0f)
@@ -75,7 +59,29 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
         super.onDraw(canvas)
     }
 
-    private fun createDialog(onSuccess: (v: String) -> Unit): AlertDialog {
+    fun toggle() {
+        /*
+        val dialog = createDialog {
+            listener?.valueChanged(it)
+        }
+        dialog.show()
+         */
+
+        this.listener?.onLicensePlateDialogShow(this.createDialog())
+    }
+
+
+
+    private fun createDialog(): LicensePlateDialogFragment {
+        var title = resources.getString(R.string.copy_title)
+        if (identifier != null) {
+            title = title.plus(" ${resources.getString(R.string.copy_for)} $identifier")
+        }
+
+        val message = resources.getString(R.string.copy_message)
+
+        return LicensePlateDialogFragment.newInstance(title, message)
+        /*
         val dialog = AlertDialog.Builder(ctx)
 
         var title = resources.getString(R.string.copy_title)
@@ -128,6 +134,8 @@ class LicensePlate(private val ctx: Context, attrs: AttributeSet) : TextView(ctx
 
         input.requestFocus()
         return dialog.create()
+
+         */
     }
 }
 
